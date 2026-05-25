@@ -1,37 +1,42 @@
+"use client";
 
-interface ProductType{
-  id : number;
-  nom : string;
-  description? : string;
-  price : string;
-  etat : "neuf" | "exprire"
-}
+import { useState } from "react";
+import { ProductType,CreateProd ,produits} from "@/data";
+import {Trash} from "lucide-react";
+import { FaPen,FaPlus } from "react-icons/fa";
+
+
 
 function HomePage(){
-  
-  const produits: ProductType[] = [
-    { id: 1, nom: "Montre Connectée", description: "Design élégant et fonctions santé.", price: "79.99€", etat: "neuf" },
-    { id: 2, nom: "Écouteurs Sans Fil", description: "Son immersif et autonomie 24h.", price: "59.99€", etat: "neuf" },
-    { id: 3, nom: "Sac à Dos Voyage", description: "Étanche avec compartiments multiples.", price: "49.90€", etat: "neuf" },
-    { id: 4, nom: "Lampe de Bureau LED", description: "Réglable et faible consommation.", price: "24.50€", etat: "neuf" },
-    { id: 5, nom: "Tapis de Souris Gamer", description: "Surface lisse et repose-poignet confortable.", price: "14.99€", etat: "neuf" },
-    { id: 6, nom: "Coque Smartphone", description: "Protection renforcée anti-chute.", price: "12.90€", etat: "neuf" },
-    { id: 7, nom: "Clavier Mécanique", description: "Rétroéclairé RGB et touches silencieuses.", price: "89.00€", etat: "neuf" },
-    { id: 8, nom: "Câble USB-C", description: "Charge rapide et transfert 100W.", price: "9.99€", etat: "neuf" },
-    { id: 9, nom: "Batterie Externe", description: "10 000 mAh pour recharger deux appareils.", price: "29.99€", etat: "neuf" },
-    { id: 10, nom: "Haut-parleur Bluetooth", description: "Son stéréo et résistance à l'eau.", price: "34.90€", etat: "neuf" },
-    { id: 11, nom: "Cafetière à Capsules", description: "Pratique et rapide pour le matin.", price: "69.90€", etat: "neuf" },
-    { id: 12, nom: "Tasse Isotherme", description: "Garde les boissons chaudes 6h.", price: "19.90€", etat: "neuf" },
-    { id: 13, nom: "Jeu de Société", description: "Soirées familiales garanties.", price: "22.50€", etat: "neuf" },
-    { id: 14, nom: "Pochette Tablette", description: "Protection fine et légère.", price: "17.99€", etat: "neuf" },
-    { id: 15, nom: "Chargeur Sans Fil", description: "Recharge compatible Qi.", price: "18.90€", etat: "neuf" },
-    { id: 16, nom: "Étagère Murale", description: "Bois clair pour un style moderne.", price: "39.99€", etat: "neuf" },
-    { id: 17, nom: "Tapis de Yoga", description: "Antidérapant et épais.", price: "25.00€", etat: "neuf" },
-    { id: 18, nom: "Enceinte Portable", description: "Compacte et puissante.", price: "44.90€", etat: "neuf" },
-    { id: 19, nom: "Couteau de Cuisine", description: "Lame professionnelle en acier inox.", price: "29.50€", etat: "neuf" },
-    { id: 20, nom: "Agenda 2026", description: "Pages mensuelles et notes.", price: "12.50€", etat: "neuf" },
-  ]
 
+  const [ajoutable,setAjoutable] = useState(false);
+
+  const [produit_list, setProduit_list] = useState(produits);
+  const [nouveaup, setNouveauP] = useState({
+    nom : "",
+    description : "",
+    price : "",
+    etat : "neuf",
+    quandite : 0
+  });
+
+  function supprimer(id : number){
+    setProduit_list(produit_list.filter((produit)=>produit.id !== id));
+  }
+
+  function Ajouter(){
+    if (!ajoutable) return ;
+    setProduit_list([...produit_list, {...nouveaup,id : produit_list.length,etat:"neuf"}])
+    setNouveauP({
+    nom : "",
+    description : "",
+    price : "",
+    etat : "neuf",
+    quandite : 0
+  })
+    setAjoutable(false);
+
+  }
 
   return (
       <div className="flex flex-col overflow-y-auto min-w-full bg-blue-200 h-full justify-center items-center content-center p-10">
@@ -39,19 +44,79 @@ function HomePage(){
         <div className="bg-gray-500 rounded-3xl p-8">
           <h1 className="text-center text-3xl font-semibold">Bienvenue sur notre applications </h1>
         </div> 
-        
+        <button className="bg-green-600 rounded-3xl text-2xl mt-5 right-0 p-5" 
+          onClick={()=>setAjoutable(!ajoutable)}
+        >
+            Ajouter
+        </button>
+
+        {ajoutable && <div className="bg-gray-400 rounded-3xl p-8 mt-5">
+          <h2 className="text-center text-3xl font-semibold">Ajouter un produit </h2>
+          <div className="bg-gray-300 rounded-3xl p-8 m-10 flex flex-col gap-5">
+            <label htmlFor="nom" className="mt-5">Nom </label>
+            <input type="text" name="nom" placeholder="Le nom du produit" title="Nom" className="mt-2 border border-blue-600 rounded-2xl h-10 p-3" required
+              value={nouveaup.nom}
+              onChange={(e)=> setNouveauP({...nouveaup,nom: e.target.value}) }
+            />
+
+            <label htmlFor="desc" className="mt-2">Decriptions </label>
+            <input type="text" name="desc" placeholder="Decription(optionel)" title="Nom" className="mt-2 border border-blue-600 rounded-2xl h-10 p-3"
+              value={nouveaup.description}
+              onChange={(e)=> setNouveauP({...nouveaup,description: e.target.value}) }/>
+
+            <label htmlFor="prix" className="mt-2">Prix </label>
+            <input type="text" name="prix" placeholder="Le Prix du produit" title="Nom" className="mt-2 border border-blue-600 rounded-2xl h-10 p-3" required
+              value={nouveaup.price}
+              onChange={(e)=> setNouveauP({...nouveaup,price: e.target.value}) }/>
+
+
+            <label htmlFor="qt" className="mt-2">Qantite </label>
+            <input type="number" name="qt" placeholder="Le quantite du produit" title="quantite" className="mt-2 border border-blue-600 rounded-2xl h-10 p-3" min={0} max={100}
+              value={nouveaup.quandite}
+              onChange={(e)=> setNouveauP({...nouveaup,quandite: parseInt(e.target.value)}) }/>
+
+            <button className="bg-blue-700 rounded-3xl text-2xl mt-5 p-4 flex flex-row" 
+              onClick={()=>Ajouter()}
+            >
+                <FaPlus />Ajouter
+            </button>
+          </div>
+        </div> }
+
         <div className="bg-blue-300 rounded-2xl p-8 m-20">
-            <h1 className="text-2xl text-blue-900">La list de nos produits</h1>
-            {produits.map((produit,index)=>(
-              <div key={index} className="border h-16 mr-3 ml-3 p-3 w-200 hover:bg-blue-400 hover:scale-110 hover:rounded-2xl flex flex-col-2">
-                <div>
+            <h1 className="text-2xl text-blue-900 text-center">La liste de nos produits</h1>
+            <div className="border-2 h-20 mr-3 ml-3 p-3 w-300  rounded-t-2xl grid grid-cols-5 grid-rows-1">
+              <h2>Nom</h2>
+              <h2>Description</h2>
+              <h2>Prix</h2>
+              <h2>Quantite</h2>
+              <h2>Actions</h2>
+            </div>
+            {produit_list.map((produit,index)=>(
+              <div key={index} className="border h-16 mr-3 ml-3 p-3 w-300 hover:bg-blue-400 hover:scale-110 hover:rounded-2xl grid grid-cols-5 grid-rows-1">
                   <h2 className="font-bold">{produit.nom}</h2>
                   <p className="text-gray-600">{produit.description}</p>
-                </div>
-                <p className="right-0 ">{produit.price}</p>
+                  <p className="right-0 ">{produit.price}</p>
+                  <p className="">{produit.quandite}</p>
+                  <div className="">
+
+
+                    <button className="text-center content-center items-center justify-items-center mr-10" type="button"
+                      onClick={()=>supprimer(produit.id)}>
+                        <Trash className="text-center" size={24} />
+                    </button>
+
+
+                    {/*Button modifier*/}
+                    <button className="text-center content-center items-center justify-items-center" type="button"
+                    >
+                      <FaPen className="text-center"  size={24}/>
+                    </button>
+                  </div>
+
               </div>
             ))
-          }
+         }
         </div>
 
       </div>
