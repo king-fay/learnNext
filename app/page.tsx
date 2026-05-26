@@ -4,12 +4,14 @@ import { useState } from "react";
 import { ProductType,CreateProd ,produits} from "@/data";
 import {Trash} from "lucide-react";
 import { FaPen,FaPlus } from "react-icons/fa";
+import { ModalSetProduit } from "@/components/modalsetProduit";
 
 
 
 function HomePage(){
 
   const [ajoutable,setAjoutable] = useState(false);
+  const [isclose, setIsClose] = useState(true);
 
   const [produit_list, setProduit_list] = useState(produits);
   const [nouveaup, setNouveauP] = useState({
@@ -19,6 +21,8 @@ function HomePage(){
     etat : "neuf",
     quandite : 0
   });
+
+  const [currentProduct, setCurrentProduct] = useState<ProductType | null>(null);
 
   function supprimer(id : number){
     setProduit_list(produit_list.filter((produit)=>produit.id !== id));
@@ -36,6 +40,23 @@ function HomePage(){
   })
     setAjoutable(false);
 
+  }
+
+
+  function modifier(produit : ProductType){
+    setCurrentProduct(produit);
+    setIsClose(false);
+  }
+
+  function EnrModif(produit : ProductType){
+    let nouvel = produit_list.filter((prod)=>prod.id !=produit.id);
+    nouvel = [produit, ...nouvel];
+    setProduit_list(nouvel);
+    setIsClose(true);
+  }
+
+  const fermer =()=>{
+    setIsClose(true);
   }
 
   return (
@@ -109,6 +130,7 @@ function HomePage(){
 
                     {/*Button modifier*/}
                     <button className="text-center content-center items-center justify-items-center" type="button"
+                    onClick={()=>modifier(produit)}
                     >
                       <FaPen className="text-center"  size={24}/>
                     </button>
@@ -119,8 +141,14 @@ function HomePage(){
          }
         </div>
 
-      </div>
+        <ModalSetProduit 
+          isClose={isclose}
+          OnClose={fermer} 
+          produit={currentProduct}
+          OnSubmit={EnrModif}
+        />
 
+      </div>
   )
 }
 

@@ -23,7 +23,14 @@ export interface CreateProd{
     { id: 3, nom: "Sac à Dos Voyage", description: "Étanche avec compartiments multiples.", price: "49.90€", etat: "neuf", quandite: 12 },
     { id: 4, nom: "Lampe de Bureau LED", description: "Réglable et faible consommation.", price: "24.50€", etat: "neuf", quandite: 35 },
     { id: 5, nom: "Tapis de Souris Gamer", description: "Surface lisse et repose-poignet confortable.", price: "14.99€", etat: "neuf", quandite: 42 },
-  ]/*
+  ]
+
+  export const all_produits: ProductType[] = [
+    { id: 1, nom: "Montre Connectée", description: "Design élégant et fonctions santé.", price: "79.99€", etat: "neuf", quandite: 15 },
+    { id: 2, nom: "Écouteurs Sans Fil", description: "Son immersif et autonomie 24h.", price: "59.99€", etat: "neuf", quandite: 28 },
+    { id: 3, nom: "Sac à Dos Voyage", description: "Étanche avec compartiments multiples.", price: "49.90€", etat: "neuf", quandite: 12 },
+    { id: 4, nom: "Lampe de Bureau LED", description: "Réglable et faible consommation.", price: "24.50€", etat: "neuf", quandite: 35 },
+    { id: 5, nom: "Tapis de Souris Gamer", description: "Surface lisse et repose-poignet confortable.", price: "14.99€", etat: "neuf", quandite: 42 },
     { id: 6, nom: "Coque Smartphone", description: "Protection renforcée anti-chute.", price: "12.90€", etat: "neuf", quandite: 67 },
     { id: 7, nom: "Clavier Mécanique", description: "Rétroéclairé RGB et touches silencieuses.", price: "89.00€", etat: "neuf", quandite: 8 },
     { id: 8, nom: "Câble USB-C", description: "Charge rapide et transfert 100W.", price: "9.99€", etat: "neuf", quandite: 95 },
@@ -72,6 +79,3 @@ export interface CreateProd{
     { id: 51, nom: "Stylet pour Tablette", description: "Pression 4096 niveaux de sensibilité.", price: "42.90€", etat: "neuf", quandite: 14 },
     { id: 52, nom: "Support Téléphone Bureau", description: "Rotatif 360°, base antidérapante.", price: "11.99€", etat: "neuf", quandite: 65 },
   ]
-
-
-*/
